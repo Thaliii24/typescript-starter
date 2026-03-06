@@ -7,6 +7,6 @@ export class CreateTodoRepository {
     constructor(private readonly prisma: PrismaService) {}
 
     async execute(data: CreateTodoDto) {
-        return this.prisma.todo.create({ data });
+        return await this.prisma.todo.create({ data });
     }
 }
