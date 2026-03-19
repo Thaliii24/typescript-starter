@@ -1,23 +1,30 @@
-import { Injectable, Logger } from "@nestjs/common";
-import { DeleteTodoRepository } from "../repository";
+import { Injectable, Logger, NotFoundException } from "@nestjs/common";
+import { DeleteTodoRepository, FindTodoByIdRepository } from "..";
 import { CreateTodoDto } from "../dto/create-todo.dto";
 
 @Injectable()
-export class DeleteteTodoUseCase {
+export class DeleteTodoUseCase {
     constructor(
         private readonly deleteTodoRepository: DeleteTodoRepository,
+        private readonly findTodoByIdRepository: FindTodoByIdRepository,
         private readonly logger: Logger,
 ) {}
 
-async execute(id: String) {
+async execute(id: string) {
     try {
         this.logger.log('Deleting todo...');
-        const todo = await this.deleteTodoRepository.delete(id);
+        const todo = await this.findTodoByIdRepository.execute(id);
+
+        if (!todo) {
+            throw new NotFoundException('ToDo not found');
+        }
+
+        await this.deleteTodoRepository.execute(id);
         this.logger.log('ToDo deleted sucessfully!');
         return todo;
     }   catch (error) {
         this.logger.error(error);
-        throw new Error('Failed to deleted toDo');
+        throw error;
     }
     }
 }
