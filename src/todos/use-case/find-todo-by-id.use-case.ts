@@ -1,22 +1,30 @@
-import { Injectable, Logger } from "@nestjs/common";
-import { FindTodoByIdRepository } from "..";
+import { Injectable, Logger, NotFoundException } from "@nestjs/common";
+import { FindTodoByIdRepository } from "../repository/find-todo-by-id.repository";
+
 
 @Injectable()
 export class FindTodoByIdUseCase {
-  constructor(
-    private readonly findTodoByIdRepository: FindTodoByIdRepository,
-    private readonly logger: Logger,
-  ) {}
+    constructor(
+        private readonly findTodoByIdRepository: FindTodoByIdRepository,
+        private readonly logger: Logger,
+    ) {}
 
-  async execute(id: string) {
-    try {
-      this.logger.log("Finding todo by id...");
-      const todo = await this.findTodoByIdRepository.findById(id);
-      this.logger.log("Todo found successfully!");
-      return todo;
-    } catch (error) {
-      this.logger.error(error);
-      throw new Error("Failed to find todo");
+    async execute(id: string) {
+        try {
+            this.logger.log('Finding todo by id...');
+
+            const todo = await this.findTodoByIdRepository.execute(id);
+
+            if (!todo) {
+                throw new NotFoundException('ToDo not found');
+            }
+
+            this.logger.log('ToDo found successfully!');
+            return todo;
+
+        } catch (error) {
+            this.logger.error(error);
+            throw error;
+        }
     }
-  }
 }

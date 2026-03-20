@@ -1,5 +1,6 @@
 import { Injectable, Logger } from "@nestjs/common";
-import { FindAllTodosRepository } from "..";
+import { FindAllTodosRepository } from "../repository/find-all-todos.repository";
+
 
 @Injectable()
 export class FindAllTodosUseCase {
@@ -11,7 +12,7 @@ export class FindAllTodosUseCase {
   async execute() {
     try {
       this.logger.log('Finding all todos...');
-      const todos = await this.findAllTodosRepository.findMany();
+      const todos = await this.findAllTodosRepository.findAll();
       this.logger.log('Todos found successfully!');
       return todos;
     } catch (error) {

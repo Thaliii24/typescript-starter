@@ -1,6 +1,7 @@
 import { Injectable, Logger, NotFoundException } from "@nestjs/common";
-import { DeleteTodoRepository, FindTodoByIdRepository } from "..";
-import { CreateTodoDto } from "../dto/create-todo.dto";
+import { DeleteTodoRepository } from "../repository/delete-todo.repository";
+import { FindTodoByIdRepository } from "../repository/find-todo-by-id.repository";
+
 
 @Injectable()
 export class DeleteTodoUseCase {
