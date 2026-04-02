@@ -44,7 +44,7 @@ export class CreateTodoDto {
     completedAt: Date;
 
     @IsString()
-    userId: string;
+    user_id: string;
 
     @IsDateString()
     createdAt: Date;
@@ -52,6 +52,5 @@ export class CreateTodoDto {
     @IsDateString()
     @IsOptional()
     updatedAt: Date;
-    id: string
 }
 
