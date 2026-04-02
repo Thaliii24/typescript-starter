@@ -21,7 +21,7 @@ async execute(id: string, data: UpdateTodoDto) {
             throw new NotFoundException('ToDo not found');
         }
 
-        await this.updateTodoRepository.update(id, data);
+        await this.updateTodoRepository.execute(id, data);
         this.logger.log('ToDo updated sucessfully!');
         return todo;
     }   catch (error) {

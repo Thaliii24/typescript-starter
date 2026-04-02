@@ -4,9 +4,16 @@ import { CreateTodoDto } from '../dto/create-todo.dto';
 
 @Injectable()
 export class CreateTodoRepository {
-    constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
-    async create(data: CreateTodoDto) {
-        return await this.prisma.todo.create({ data });
-    }
+  async create(data: CreateTodoDto) {
+    const { user_id, ...todoData } = data;
+
+    return await this.prisma.todo.create({
+      data: {
+        ...todoData,
+        user: { connect: { id: user_id } },
+      },
+    });
+  }
 }
