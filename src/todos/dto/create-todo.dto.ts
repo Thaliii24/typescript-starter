@@ -35,7 +35,7 @@ export class CreateTodoDto {
 
   @IsUUID()
   @IsNotEmpty()
-  user_id: string;
+  userId: string;
 
   @IsDateString()
   @IsOptional()
